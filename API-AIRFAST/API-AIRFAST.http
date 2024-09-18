@@ -1,6 +1,0 @@
-@API_AIRFAST_HostAddress = http://localhost:5106
-
-GET {{API_AIRFAST_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
