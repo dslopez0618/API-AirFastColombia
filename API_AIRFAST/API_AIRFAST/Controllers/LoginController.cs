@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API_AIRFAST.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/login")]
 public class LoginController : ControllerBase
 {
     private readonly ILoginService _loginService;
