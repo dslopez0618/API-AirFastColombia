@@ -5,29 +5,28 @@ using Microsoft.AspNetCore.Mvc;
 namespace API_AIRFAST.Controllers;
 
 [ApiController]
-[Route("api/login")]
-public class LoginController : ControllerBase
+[Route("api/registro")]
+public class RegistroController : ControllerBase
 {
     private readonly ILoginService _loginService;
 
-    public LoginController(ILoginService loginService)
+    public RegistroController(ILoginService loginService)
     {
         _loginService = loginService;
     }
 
-    [HttpPost("iniciar-sesion")]
-    public IActionResult IniciarSesion([FromBody] UsuarioModel usuario)
+    [HttpPost]
+    public IActionResult RegistrarUsuario([FromBody] UsuarioModel nuevoUsuario)
     {
-        Console.WriteLine("se consume desde el front");
         try
         {
-            if (_loginService.ValidarUsuario(usuario.Correo, usuario.Contrasena))
+            if (_loginService.RegistrarUsuario(nuevoUsuario))
             {
-                return Ok(new { mensaje = "Inicio de sesión exitoso" });
+                return Ok(new { mensaje = "Registro exitoso" });
             }
             else
             {
-                return Unauthorized(new { mensaje = "Credenciales incorrectas" });
+                return BadRequest(new { mensaje = "Error al registrar usuario. Verifique si el correo o el usuario ya existen o si es menor de edad." });
             }
         }
         catch (Exception ex)
@@ -35,6 +34,5 @@ public class LoginController : ControllerBase
             Console.WriteLine(ex.Message);
             return StatusCode(500, new { mensaje = "Ocurrió un error en el servidor." });
         }
-
     }
 }

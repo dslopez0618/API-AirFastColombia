@@ -1,4 +1,6 @@
+using API_AIRFAST.Data;
 using API_AIRFAST.Services.LoginService;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,14 +18,18 @@ var builder = WebApplication.CreateBuilder(args);
 //});
 
 // Agregar CORSS
+/*
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
     {
         policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
     });
-});
+});*/
 
+// Configurar conexion a postgresql
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("_dbConnection")));
 
 
 // Add services to the container.

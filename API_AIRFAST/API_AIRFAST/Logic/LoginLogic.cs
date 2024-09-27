@@ -1,19 +1,24 @@
-﻿using API_AIRFAST.Models;
+﻿using API_AIRFAST.Data;
+using API_AIRFAST.Models;
+using System.Linq;
 
-namespace API_AIRFAST.Logic;
-
-public class LoginLogic
+namespace API_AIRFAST.Logic
 {
-    // Aquí puedes almacenar los usuarios temporalmente
-    private List<UsuarioModel> usuarios = new List<UsuarioModel>
+    public class LoginLogic
     {
-        new UsuarioModel { Email = "usuario1@example.com", Contrasena = "password1" },
-        new UsuarioModel { Email = "usuario2@example.com", Contrasena = "password2" }
-    };
+        private readonly AppDbContext _context;
 
-    // Lógica para validar el inicio de sesión
-    public bool ValidarUsuario(string email, string contrasena)
-    {
-        return usuarios.Any(u => u.Email == email && u.Contrasena == contrasena);
+        // Inyectar el contexto de la base de datos en el constructor
+        public LoginLogic(AppDbContext context)
+        {
+            _context = context;
+        }
+
+        // Lógica para validar el inicio de sesión
+        public bool ValidarUsuario(string email, string contrasena)
+        {
+            // Verificar si existe un usuario con el correo y contraseña dados en la base de datos
+            return _context.Usuarios.Any(u => u.Correo == email && u.Contrasena == contrasena);
+        }
     }
 }
