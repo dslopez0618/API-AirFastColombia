@@ -2,6 +2,30 @@ using API_AIRFAST.Services.LoginService;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+// Habilitar CORS
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("AllowAngularApp",
+//        builder =>
+//        {
+//            builder.WithOrigins("http://localhost:4200") // URL de tu aplicación Angular
+//                   .AllowAnyMethod()
+//                   .AllowAnyHeader();
+//        });
+//});
+
+// Agregar CORSS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+    });
+});
+
+
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -22,6 +46,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowAll");
 
 app.UseAuthorization();
 
