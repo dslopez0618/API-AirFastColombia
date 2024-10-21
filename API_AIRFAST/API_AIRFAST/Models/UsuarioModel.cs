@@ -9,17 +9,17 @@ public class UsuarioModel
 {
     [Key]
     [Column("id")]
-    public long Id { get; set; }
+    public long? Id { get; set; }
 
     [Column("correo")]
-    [Required]
+    //[Required]
     [MaxLength(255)]
-    public string Correo { get; set; }
+    public string? Correo { get; set; }
 
     [Column("contrasena")]
-    [Required]
+    //[Required]
     [MaxLength(255)]
-    public string Contrasena { get; set; }
+    public string? Contrasena { get; set; }
 
     [Column("usuario")]
     [MaxLength(255)]

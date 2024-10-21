@@ -31,6 +31,8 @@ builder.Services.AddCors(options =>
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("_dbConnection")));
 
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 
 // Add services to the container.
 

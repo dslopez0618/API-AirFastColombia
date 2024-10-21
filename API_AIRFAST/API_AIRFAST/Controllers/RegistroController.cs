@@ -18,8 +18,10 @@ public class RegistroController : ControllerBase
     [HttpPost]
     public IActionResult RegistrarUsuario([FromBody] UsuarioModel nuevoUsuario)
     {
+
         try
         {
+            /*
             if (_loginService.RegistrarUsuario(nuevoUsuario))
             {
                 return Ok(new { mensaje = "Registro exitoso" });
@@ -27,6 +29,19 @@ public class RegistroController : ControllerBase
             else
             {
                 return BadRequest(new { mensaje = "Error al registrar usuario. Verifique si el correo o el usuario ya existen o si es menor de edad." });
+            }
+            */
+            (bool resBool, string mensaje) =  _loginService.RegistrarUsuario(nuevoUsuario);
+
+            if (resBool)
+            {
+                //return Ok(new { mensaje = mensaje });
+                return Ok(new { mensaje });
+            }
+            else
+            {
+                //return BadRequest(new { mensaje = "Error al registrar usuario. Verifique si el correo o el usuario ya existen o si es menor de edad." });
+                return BadRequest(new { mensaje });
             }
         }
         catch (Exception ex)

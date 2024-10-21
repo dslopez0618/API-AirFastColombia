@@ -4,6 +4,8 @@ namespace API_AIRFAST.Services.LoginService;
 
 public interface ILoginService
 {
-    bool ValidarUsuario(string email, string contrasena);
-    bool RegistrarUsuario(UsuarioModel nuevoUsuario);
+    (bool, int?) ValidarUsuario(string email, string contrasena);
+    (bool, string) RegistrarUsuario(UsuarioModel nuevoUsuario);
+
+    bool EditarUsuario(string id, UsuarioModel usuario);
 }
