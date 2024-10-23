@@ -83,17 +83,6 @@ public class LoginService : ILoginService
         }
 
 
-        /*usuarioEditado.Correo = usuario.Correo;
-        usuarioEditado.Usuario = usuario.Usuario;
-        usuarioEditado.Contrasena = usuario.Contrasena;
-        usuarioEditado.Nombre = usuario.Nombre;
-        usuarioEditado.Apellido = usuario.Apellido;
-        usuarioEditado.Documento = usuario.Documento;
-        usuarioEditado.LugarNacimiento = usuario.Documento;
-        usuarioEditado.FechaNacimiento = usuario.FechaNacimiento;
-        usuarioEditado.Genero = usuario.Genero;*/
-
-        // Actualizamos solo los campos relevantes que hayan sido proporcionados
         usuarioEditado.Correo = usuario.Correo ?? usuarioEditado.Correo;
         usuarioEditado.Usuario = usuario.Usuario ?? usuarioEditado.Usuario;
         usuarioEditado.Contrasena = usuario.Contrasena ?? usuarioEditado.Contrasena;
@@ -112,4 +101,31 @@ public class LoginService : ILoginService
         return true;
 
     }
+
+    public bool DesactivarUsuario(string id)
+    {
+        if (string.IsNullOrEmpty(id))
+        {
+            return false;
+        }
+
+        if (!long.TryParse(id, out long userId))
+        {
+            return false; // Retornamos falso si el ID no es un número válido
+        }
+
+        UsuarioModel usuarioEditado = _context.Usuarios.FirstOrDefault(u => u.Id == userId);
+
+        if (usuarioEditado == null)
+        {
+            return false; // Si no se encuentra el usuario, retornamos falso
+        }
+
+        usuarioEditado.Estado = false;
+
+        _context.Update(usuarioEditado);
+        _context.SaveChanges();
+        return true;
+    }
+
 }

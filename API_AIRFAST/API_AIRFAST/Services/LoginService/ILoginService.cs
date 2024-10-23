@@ -8,4 +8,6 @@ public interface ILoginService
     (bool, string) RegistrarUsuario(UsuarioModel nuevoUsuario);
 
     bool EditarUsuario(string id, UsuarioModel usuario);
+
+    bool DesactivarUsuario(string id);
 }

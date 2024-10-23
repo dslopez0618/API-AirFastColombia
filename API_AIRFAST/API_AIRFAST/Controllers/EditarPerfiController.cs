@@ -1,13 +1,15 @@
 ﻿using API_AIRFAST.Data;
 using API_AIRFAST.Models;
 using API_AIRFAST.Services.LoginService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API_AIRFAST.Controllers;
 
+//[Authorize]
 [ApiController]
 [Route("api/editar-perfil")]
-public class EditarPerfiController : Controller
+public class EditarPerfiController : ControllerBase
 {
     private readonly ILoginService _loginService;
 
