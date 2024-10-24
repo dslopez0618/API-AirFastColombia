@@ -27,14 +27,15 @@ public class LoginController : ControllerBase
         Console.WriteLine("se consume desde el front");
         try
         {
-            var (exito, idTipo) = _loginService.ValidarUsuario(usuario.Correo, usuario.Contrasena);
+            var (exito, idTipo, idUsuario) = _loginService.ValidarUsuario(usuario.Correo, usuario.Contrasena);
 
             //if (_loginService.ValidarUsuario(usuario.Correo, usuario.Contrasena))
             if(exito)
             {
                 var token = GenerateJwtToken(usuario.Correo);
+
                 //return Ok(new { mensaje = "Inicio de sesión exitoso" });
-                return Ok(new { exito = true, mensaje = "Inicio de sesión exitoso", userType = idTipo, token});
+                return Ok(new { exito = true, mensaje = "Inicio de sesión exitoso", userType = idTipo, userId = idUsuario, token});
 
             }
             else

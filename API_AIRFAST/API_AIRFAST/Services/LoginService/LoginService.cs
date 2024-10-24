@@ -18,7 +18,7 @@ public class LoginService : ILoginService
         //_loginLogic = new LoginLogic();
     }
 
-    public (bool, int?) ValidarUsuario(string email, string contrasena)
+    public (bool, int?, long?) ValidarUsuario(string email, string contrasena)
     {
         // Verificar si existe un usuario con el correo y contraseña dados en la base de datos
         //return _context.Usuarios.Any(u => u.Correo == email && u.Contrasena == contrasena);
@@ -26,10 +26,10 @@ public class LoginService : ILoginService
 
         if (usuario != null)
         {
-            return (true, usuario.IdTipo); // credenciales correctas
+            return (true, usuario.IdTipo, usuario.Id); // credenciales correctas
         }
 
-        return (false, null); // credenciales incorrectas
+        return (false, null, null); // credenciales incorrectas
     }
 
     public (bool, string) RegistrarUsuario(UsuarioModel nuevoUsuario)
