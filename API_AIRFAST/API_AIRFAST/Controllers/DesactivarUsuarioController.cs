@@ -15,6 +15,7 @@ public class DesactivarUsuarioController : ControllerBase
     }
 
     [HttpPatch]
+    //[Route("desactiar")]
     public IActionResult DesactivarUsuario(string id)
     {
         if (string.IsNullOrEmpty(id))
