@@ -1,9 +1,6 @@
 ﻿using API_AIRFAST.Data;
-using API_AIRFAST.Logic;
 using API_AIRFAST.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.Win32;
 
 namespace API_AIRFAST.Services.LoginService;
 

@@ -11,4 +11,6 @@ public class AppDbContext : DbContext
     }
 
     public DbSet<UsuarioModel> Usuarios { get; set; }
+    public DbSet<VuelosModel> Vuelos { get; set; }
+    public DbSet<TipoDeVueloModel> TipoDeVuelo { get; set; }
 }

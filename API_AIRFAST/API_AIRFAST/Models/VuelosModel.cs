@@ -3,7 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API_AIRFAST.Models;
 
-public class VueloModel
+[Table("vuelos", Schema = "app")]
+public class VuelosModel
 {
     /// <summary>
     /// ID DEL VUELO AUTOGENERADO.
@@ -48,10 +49,6 @@ public class VueloModel
     [Column("id_tipo_vuelo")]
     public int IdTipoVuelo { get; set; }
 
-    /// <summary>
-    /// OBJETO DE NAVEGACION PARA EL TIPO DE VUELO.
-    /// </summary>
-    public TipoDeVueloModel TipoDeVuelo { get; set; }
 
     /// <summary>
     /// FECHA DE LLEGADA DEL VUELO.

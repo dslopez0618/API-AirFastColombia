@@ -1,5 +1,6 @@
 using API_AIRFAST.Data;
 using API_AIRFAST.Services.LoginService;
+using API_AIRFAST.Services.VuelosService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -90,6 +91,7 @@ builder.Services.AddSwaggerGen(c =>
 
 // Agrego los servicios
 builder.Services.AddScoped<ILoginService, LoginService>();
+builder.Services.AddScoped<IVuelosService, VuelosService>();
 
 var app = builder.Build();
 
