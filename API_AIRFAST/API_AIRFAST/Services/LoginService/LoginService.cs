@@ -1,6 +1,7 @@
 ﻿using API_AIRFAST.Data;
 using API_AIRFAST.Logic;
 using API_AIRFAST.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Win32;
 
@@ -128,4 +129,10 @@ public class LoginService : ILoginService
         return true;
     }
 
+
+    public async Task<IEnumerable<UsuarioModel>> ObtenerUsuariosActivos()
+    {
+        return await _context.Usuarios.Where(u => u.Estado == true && u.IdTipo == 2)
+            .ToListAsync();
+    }
 }

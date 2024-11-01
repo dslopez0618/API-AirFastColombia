@@ -10,4 +10,6 @@ public interface ILoginService
     bool EditarUsuario(string id, UsuarioModel usuario);
 
     bool DesactivarUsuario(string id);
+
+    Task<IEnumerable<UsuarioModel>> ObtenerUsuariosActivos();
 }
