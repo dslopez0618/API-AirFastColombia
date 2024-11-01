@@ -30,4 +30,34 @@ public class VuelosController : ControllerBase
         return CreatedAtAction(nameof(CrearVuelo), new { id = vueloCreado.Id }, vueloCreado);
 
     }
+
+    [HttpPut("editar-vuelo")]
+    public async Task<IActionResult> EditarVuelo(int id, [FromBody] VuelosModel vuelo)
+    {
+        if (id != vuelo.Id)
+        {
+            return BadRequest("El ID del vuelo no coincide con el ID proporcionado.");
+        }
+
+        try
+        {
+            // Llamamos al servicio para editar el vuelo
+            var resultado = await _vuelosService.EditarVueloAsync(vuelo);
+
+            if (resultado)
+            {
+                return Ok(new { mensaje = "Vuelo actualizado exitosamente." });
+            }
+            else
+            {
+                return NotFound(new { mensaje = "Vuelo no encontrado." });
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            return StatusCode(500, new { mensaje = "Ocurrió un error al actualizar el vuelo." });
+        }
+
+    }
 }

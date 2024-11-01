@@ -10,4 +10,8 @@ public interface IVuelosService
     /// <param name="nuevoVuelo">OBJETO VUELO QUE CONTIENE LOS DETALLES A AGREGAR.</param>
     /// <returns>DEVUELVE EL OBJETO VUELO CREADO.</returns>
     Task<VuelosModel> CrearVuelo(VuelosModel nuevoVuelo);
+
+    Task<bool> EditarVueloAsync(VuelosModel nuevoVuelo);
+
+    Task<IEnumerable<VuelosModel>> ObtenerTodosLosVuelosAsync();
 }
