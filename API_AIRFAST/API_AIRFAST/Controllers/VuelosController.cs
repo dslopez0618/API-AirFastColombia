@@ -1,6 +1,8 @@
-﻿using API_AIRFAST.Models;
+﻿using API_AIRFAST.Data;
+using API_AIRFAST.Models;
 using API_AIRFAST.Services.VuelosService;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace API_AIRFAST.Controllers;
 
@@ -9,10 +11,12 @@ namespace API_AIRFAST.Controllers;
 public class VuelosController : ControllerBase
 {
     private readonly IVuelosService _vuelosService;
+    private readonly AppDbContext _dbContext;
 
-    public VuelosController(IVuelosService vuelosService)
+    public VuelosController(IVuelosService vuelosService, AppDbContext dbContext)
     {   
         _vuelosService = vuelosService;
+        _dbContext = dbContext;
     }
 
     /// <summary>
@@ -59,5 +63,38 @@ public class VuelosController : ControllerBase
             return StatusCode(500, new { mensaje = "Ocurrió un error al actualizar el vuelo." });
         }
 
+    }
+
+
+    [HttpGet("proximo-id")]
+    public async Task<ActionResult<int>> ObtenerProximoId()
+    {
+        // Consultar el último ID en la base de datos
+        int ultimoId = await _dbContext.Vuelos.MaxAsync(v => v.Id);
+        int proximoId = ultimoId + 1;
+        return Ok(proximoId);
+    }
+
+
+    // VuelosController.cs
+    [HttpGet("ciudades-disponibles")]
+    public ActionResult<List<string>> ObtenerCiudadesDisponibles([FromQuery] string tipoVuelo)
+    {
+        List<string> ciudades;
+
+        if (tipoVuelo.ToLower() == "nacional")
+        {
+            ciudades = new List<string> { "Bogotá", "Medellín", "Cali", "Barranquilla", "Cartagena", "Pereira" }; // Ejemplo de capitales
+        }
+        else if (tipoVuelo.ToLower() == "internacional")
+        {
+            ciudades = new List<string> { "Pereira", "Bogotá", "Medellín", "Cali", "Cartagena", "Madrid", "Londres", "New York", "Buenos Aires", "Miami" };
+        }
+        else
+        {
+            return BadRequest("Tipo de vuelo inválido");
+        }
+
+        return Ok(ciudades);
     }
 }

@@ -21,6 +21,10 @@ public class LoginService : ILoginService
         // Verificar si existe un usuario con el correo y contraseña dados en la base de datos
         //return _context.Usuarios.Any(u => u.Correo == email && u.Contrasena == contrasena);
         var usuario = _context.Usuarios.SingleOrDefault(u => u.Correo == email && u.Contrasena == contrasena);
+        if (usuario.Estado == false)
+        {
+            return (false, null, null);
+        }
 
         if (usuario != null)
         {
