@@ -27,29 +27,26 @@ public class VuelosService : IVuelosService
 
     public async Task<bool> EditarVueloAsync(VuelosModel vuelo)
     {
-        using (var context = _context)
+        var vueloExistente = await _context.Vuelos.FindAsync(vuelo.Id);
+
+        if (vueloExistente == null)
         {
-            var vueloExistente = await context.Vuelos.FindAsync(vuelo.Id);
-
-            if (vueloExistente == null)
-            {
-                return false; // Vuelo no encontrado
-            }
-
-            // Actualizamos las propiedades necesarias
-            vueloExistente.FechaVuelo = vuelo.FechaVuelo;
-            vueloExistente.HoraVuelo = vuelo.HoraVuelo;
-            vueloExistente.Origen = vuelo.Origen;
-            vueloExistente.Destino = vuelo.Destino;
-            vueloExistente.TiempoDeVuelo = vuelo.TiempoDeVuelo;
-            vueloExistente.IdTipoVuelo = vuelo.IdTipoVuelo;
-            vueloExistente.FechaLlegada = vuelo.FechaLlegada;
-            vueloExistente.HoraLlegada = vuelo.HoraLlegada;
-            vueloExistente.CostoPorPersona = vuelo.CostoPorPersona;
-
-            await context.SaveChangesAsync(); // Guardamos los cambios en la base de datos
-            return true;
+            return false; // Vuelo no encontrado
         }
+
+        // Actualizamos las propiedades necesarias
+        vueloExistente.FechaVuelo = vuelo.FechaVuelo;
+        vueloExistente.HoraVuelo = vuelo.HoraVuelo;
+        vueloExistente.Origen = vuelo.Origen;
+        vueloExistente.Destino = vuelo.Destino;
+        vueloExistente.TiempoDeVuelo = vuelo.TiempoDeVuelo;
+        vueloExistente.IdTipoVuelo = vuelo.IdTipoVuelo;
+        vueloExistente.FechaLlegada = vuelo.FechaLlegada;
+        vueloExistente.HoraLlegada = vuelo.HoraLlegada;
+        vueloExistente.CostoPorPersona = vuelo.CostoPorPersona;
+
+        await _context.SaveChangesAsync(); // Guardamos los cambios en la base de datos
+        return true;
     }
 
 
@@ -58,4 +55,58 @@ public class VuelosService : IVuelosService
         // SE REALIZA UNA CONSULTA A LA BASE DE DATOS PARA OBTENER TODOS LOS VUELOS
         return await _context.Vuelos.ToListAsync();
     }
+
+
+    /// <summary>
+    /// OBTIENE VUELOS POR USUARIO CON OPCIÓN DE FILTROS.
+    /// </summary>
+    /// <param name="usuarioId">ID DEL USUARIO QUE CREÓ LOS VUELOS.</param>
+    /// <param name="campo">CAMPO A FILTRAR ("origen", "destino", "fecha", "id", "estado").</param>
+    /// <param name="valor">VALOR A BUSCAR SEGÚN EL CAMPO INDICADO.</param>
+    /// <returns>LISTA DE VUELOS FILTRADOS.</returns>
+    public async Task<IEnumerable<VuelosModel>> ObtenerVuelosPorUsuarioConFiltro(int usuarioId, string campo = null, string valor = null)
+    {
+        var query = _context.Vuelos.AsQueryable();
+
+        // Filtro por usuario
+        query = query.Where(v => v.CreadoPor == usuarioId.ToString());
+
+        // filtros dinámicos segun el campo
+        if (!string.IsNullOrEmpty(campo) && !string.IsNullOrEmpty(valor))
+        {
+            switch (campo.ToLower())
+            {
+                case "origen":
+                    query = query.Where(v => v.Origen == valor);
+                    break;
+                case "destino":
+                    query = query.Where(v => v.Destino == valor);
+                    break;
+                case "fecha":
+                    if (DateTime.TryParse(valor, out var fecha))
+                    {
+                        query = query.Where(v => v.FechaVuelo.Date == fecha.Date);
+                    }
+                    break;
+                case "id":
+                    if (int.TryParse(valor, out var id))
+                    {
+                        query = query.Where(v => v.Id == id);
+                    }
+                    break;
+                case "estado":
+                    if (int.TryParse(valor, out var estado))
+                    {
+                        query = query.Where(v => v.Estado == estado);
+                    }
+                    break;
+                default:
+                    throw new ArgumentException("Campo de filtro no válido");
+            }
+        }
+
+        return await query.ToListAsync();
+    }
+
+
 }

@@ -76,6 +76,37 @@ public class VuelosController : ControllerBase
     }
 
 
+    /// <summary>
+    /// OBTIENE LOS VUELOS CREADOS POR UN USUARIO, CON OPCIÓN DE FILTROS.
+    /// </summary>
+    /// <param name="usuarioId">ID DEL USUARIO QUE CREÓ LOS VUELOS.</param>
+    /// <param name="campo">CAMPO A FILTRAR ("origen", "destino", "fecha", "id", "estado").</param>
+    /// <param name="valor">VALOR A BUSCAR SEGÚN EL CAMPO INDICADO.</param>
+    /// <returns>LISTA DE VUELOS SEGÚN LOS FILTROS APLICADOS.</returns>
+    [HttpGet("obtener-vuelos")]
+    public async Task<ActionResult<IEnumerable<VuelosModel>>> Obtenervuelos(
+        [FromQuery] int usuarioId,
+        [FromQuery] string campo = null,
+        [FromQuery] string valor = null)
+    {
+        try
+        {
+            var vuelos = await _vuelosService.ObtenerVuelosPorUsuarioConFiltro(usuarioId, campo, valor);
+            Console.WriteLine("llegó al 95");
+            if (!vuelos.Any())
+            {
+                return NotFound(new { mensaje = "No se encontraron vuelos con los criterios especificados." });
+            }
+
+            return Ok(vuelos);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+        
+    }
+
     // VuelosController.cs
     [HttpGet("ciudades-disponibles")]
     public ActionResult<List<string>> ObtenerCiudadesDisponibles([FromQuery] string tipoVuelo)

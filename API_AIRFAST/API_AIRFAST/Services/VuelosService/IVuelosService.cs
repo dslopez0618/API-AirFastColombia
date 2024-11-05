@@ -14,4 +14,6 @@ public interface IVuelosService
     Task<bool> EditarVueloAsync(VuelosModel nuevoVuelo);
 
     Task<IEnumerable<VuelosModel>> ObtenerTodosLosVuelosAsync();
+
+    Task<IEnumerable<VuelosModel>> ObtenerVuelosPorUsuarioConFiltro(int usuarioId, string campo, string valor);
 }

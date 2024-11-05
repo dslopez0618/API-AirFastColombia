@@ -68,5 +68,25 @@ public class VuelosModel
     [Column("costo_por_persona")]
     public decimal CostoPorPersona { get; set; }
 
+    // Campos de auditoría
+
+    [Column("creado_por")]
+    public string CreadoPor { get; set; }
+
+    [Column("fecha_creacion")]
+    public DateTime FechaCreacion { get; set; } = DateTime.Now;
+
+    [Column("modificado_por")]
+    public string? ModificadoPor { get; set; }
+
+    [Column("fecha_modificacion")]
+    public DateTime? FechaModificacion { get; set; }
+
+    /// <summary>
+    /// ESTADO DEL VUELO (0 = PROGRAMADO, 1 = REALIZADO, 2 = CANCELADO).
+    /// </summary>
+    [Column("estado")]
+    public int Estado { get; set; }
+
 }
 
