@@ -35,7 +35,8 @@ public class VuelosController : ControllerBase
 
     }
 
-    [HttpPut("editar-vuelo")]
+
+    [HttpPut("editar-vuelo/{id}")]
     public async Task<IActionResult> EditarVuelo(int id, [FromBody] VuelosModel vuelo)
     {
         if (id != vuelo.Id)
@@ -45,7 +46,6 @@ public class VuelosController : ControllerBase
 
         try
         {
-            // Llamamos al servicio para editar el vuelo
             var resultado = await _vuelosService.EditarVueloAsync(vuelo);
 
             if (resultado)
@@ -62,8 +62,8 @@ public class VuelosController : ControllerBase
             Console.WriteLine(ex.Message);
             return StatusCode(500, new { mensaje = "Ocurrió un error al actualizar el vuelo." });
         }
-
     }
+
 
 
     [HttpGet("proximo-id")]
@@ -74,6 +74,28 @@ public class VuelosController : ControllerBase
         int proximoId = ultimoId + 1;
         return Ok(proximoId);
     }
+
+    [HttpGet("{id}")]
+    public IActionResult ObtenerVueloPorId(int id)
+    {
+        try
+        {
+            var vuelo = _dbContext.Vuelos.Find(id);
+            if (vuelo == null)
+            {
+                return NotFound(new { mensaje = $"Vuelo con ID {id} no encontrado" });
+            }
+            return Ok(vuelo);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error al obtener el vuelo con ID {id}: {ex.Message}");
+            return StatusCode(500, new { mensaje = "Error al obtener el vuelo", error = ex.Message });
+        }
+    }
+
+
+    
 
 
     /// <summary>

@@ -45,6 +45,11 @@ public class VuelosService : IVuelosService
         vueloExistente.HoraLlegada = vuelo.HoraLlegada;
         vueloExistente.CostoPorPersona = vuelo.CostoPorPersona;
 
+        // Campos de auditoría
+        vueloExistente.ModificadoPor = "usuario_actual"; // Reemplaza con el valor adecuado
+        vueloExistente.FechaModificacion = DateTime.Now;
+
+        _context.Vuelos.Update(vueloExistente); // No es estrictamente necesario si se usa EF Core tracking
         await _context.SaveChangesAsync(); // Guardamos los cambios en la base de datos
         return true;
     }
