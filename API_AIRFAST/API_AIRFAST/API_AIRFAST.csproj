@@ -7,11 +7,39 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Services\NewFolder\**" />
+    <Content Remove="Services\NewFolder\**" />
+    <EmbeddedResource Remove="Services\NewFolder\**" />
+    <None Remove="Services\NewFolder\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controllers\TarjetasController.cs" />
+    <Compile Remove="Services\UsuarioService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MailKit" Version="4.8.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.10" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.8" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.9.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Laboratorio_software\API\API_AIRFAST\API_AIRFAST\Services\NewFolder\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Laboratorio_software\API\API_AIRFAST\API_AIRFAST\Services\NewFolder\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Laboratorio_software\API\API_AIRFAST\API_AIRFAST\Services\NewFolder\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Laboratorio_software\API\API_AIRFAST\API_AIRFAST\Services\NewFolder\.editorconfig" />
   </ItemGroup>
 
 </Project>
